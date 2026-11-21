@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TRANSIT – Coiffure & Beauté</title>
+<style>
+:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#121212;--card:#1e1e1e;--line:#333;--gold:#d4af37;--mut:#bbb}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,Verdana,sans-serif}
+body{background:var(--bg);color:#fff;line-height:1.5;padding-bottom:40px}
+header{background:var(--card);padding:20px;text-align:center;border-bottom:2px solid var(--gold)}
+header{padding:26px 20px}
+.logo{display:block;margin:0 auto 8px}
+header h1{color:var(--gold);font-size:1.9rem;font-weight:800;letter-spacing:8px;text-indent:8px}
+header p{color:#ccc;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+footer{text-align:center;color:#888;font-size:.8rem;padding:24px 20px;border-top:1px solid var(--line);margin-top:30px}
+footer a{color:var(--gold);text-decoration:none}
+.bar{display:flex;flex-direction:column;gap:10px;padding:15px 20px;background:#1a1a1a;border-bottom:1px solid var(--line);max-width:900px;margin:auto}
+.btn{background:var(--gold);color:#121212;border:0;padding:12px;font-size:1rem;font-weight:700;border-radius:6px;cursor:pointer;width:100%}
+.btn.o{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.wrap{padding:20px;max-width:900px;margin:auto}
+h2{border-left:4px solid var(--gold);padding-left:10px;margin:20px 0 15px;font-size:1.15rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
+.gal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:var(--card);border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.ban{height:100px;background:linear-gradient(45deg,#2a220a,#333);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;padding:8px;text-align:center}
+.in{padding:15px}.in h3,.pd h4{color:var(--gold)}.in p,.pd p{font-size:.85rem;color:var(--mut)}
+.tag{display:inline-block;background:var(--gold);color:#121212;font-weight:700;padding:2px 8px;border-radius:4px;font-size:.75rem;margin-top:6px}
+.card img{width:100%;height:160px;object-fit:cover;display:block;background:#2c2c2c}
+.ph{height:160px;background:#2a220a;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.85rem;text-align:center;padding:10px}
+.pd{padding:10px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);justify-content:center;align-items:center;padding:20px;z-index:100;overflow:auto}
+.mc{background:var(--card);padding:20px;border-radius:10px;width:100%;max-width:400px;border:1px solid var(--gold)}
+.mc h3{color:var(--gold);margin-bottom:12px}
+input,select{width:100%;padding:10px;margin-bottom:10px;background:#2c2c2c;border:1px solid #444;color:#fff;border-radius:5px;font-size:.9rem}
+.fl{display:block;background:#2c2c2c;border:1px dashed var(--gold);padding:12px;text-align:center;border-radius:5px;margin-bottom:10px;cursor:pointer;color:var(--gold);font-size:.9rem}
+.cl{background:#444;color:#fff;border:0;padding:10px;width:100%;border-radius:5px;margin-top:8px;cursor:pointer}
+.note{font-size:.75rem;color:#999;margin-bottom:10px}
+</style>
+</head>
+<body>
+<header><svg class="logo" viewBox="0 0 64 64" width="60" height="60" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="none" stroke="#d4af37" stroke-width="3"/><path d="M19 21h26M32 21v25" stroke="#d4af37" stroke-width="6" stroke-linecap="round"/></svg><h1>TRANSIT</h1><p>Coiffure &amp; Beauté • La vitrine des salons</p></header>
+<div class="bar">
+<button class="btn" onclick="openM('mS')">+ Installer mon salon (2 000 FCFA/mois)</button>
+<button class="btn o" onclick="openM('mP')">+ Publier une coupe / photo (500 FCFA)</button>
+</div>
+<div class="wrap">
+<h2>Salons inscrits sur Transit</h2>
+<div class="grid" id="salons"></div>
+<h2>Dernières coupes &amp; réalisations</h2>
+<div class="gal" id="coupes"></div>
+</div>
+
+<footer>© TRANSIT • Contact : <a href="https://wa.me/237691617565">WhatsApp 691 61 75 65</a></footer>
+
+<div id="mS" class="modal"><div class="mc">
+<h3>Ouvrir mon espace (2 000 FCFA)</h3>
+<input id="sN" maxlength="40" placeholder="Nom du salon ou du coiffeur">
+<input id="sV" maxlength="60" placeholder="Quartier &amp; ville (ex : Bonapriso, Douala)">
+<input id="sP" maxlength="80" placeholder="Spécialités (ex : dégradé, tresses, soins)">
+<p class="note" style="color:#d4af37;font-size:.85rem">Envoie 2 000 FCFA par Orange Money au <b>691 61 75 65</b>, puis remplis les deux champs ci-dessous.</p>
+<input id="sT" type="tel" inputmode="tel" maxlength="15" placeholder="Ton numéro Orange Money">
+<input id="sI" maxlength="20" placeholder="ID de la transaction (reçu par SMS)">
+<button class="btn" onclick="addSalon()">J'ai payé, envoyer ma demande</button>
+<button class="cl" onclick="closeM('mS')">Fermer</button>
+</div></div>
+
+<div id="mP" class="modal"><div class="mc">
+<h3>Publier une coupe (500 FCFA)</h3>
+<input id="pA" maxlength="40" placeholder="Nom de ton salon">
+<input id="pX" maxlength="30" placeholder="Prix de la prestation (ex : 3 000 FCFA)">
+<label class="fl" for="pF">Choisir une photo dans la galerie</label>
+<input id="pF" type="file" accept="image/*" style="display:none" onchange="fname()">
+<p id="fn" class="note" style="text-align:center"></p>
+<p class="note" style="color:#d4af37;font-size:.85rem">Envoie 500 FCFA par Orange Money au <b>691 61 75 65</b>, puis remplis les deux champs ci-dessous.</p>
+<input id="pT" type="tel" inputmode="tel" maxlength="15" placeholder="Ton numéro Orange Money">
+<input id="pI" maxlength="20" placeholder="ID de la transaction (reçu par SMS)">
+<button class="btn" onclick="addPhoto()">J'ai payé, envoyer ma demande</button>
+<button class="cl" onclick="closeM('mP')">Fermer</button>
+</div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+function openM(id){$(id).style.display='flex'}
+function closeM(id){$(id).style.display='none'}
+function fname(){const f=$('pF').files[0];$('fn').textContent=f?'Photo sélectionnée : '+f.name:''}
+
+const DEF={salons:[{n:'Njoya Grooming',v:'Douala',s:'Coupes homme, barbe, soins visage',t:'Fondateur'}],photos:[]};
+let S=DEF;
+try{const r=localStorage.getItem('transit');if(r){const p=JSON.parse(r);if(p&&Array.isArray(p.salons)&&Array.isArray(p.photos))S=p}}catch(e){}
+function save(){try{localStorage.setItem('transit',JSON.stringify(S))}catch(e){}}
+function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+
+function render(){
+ const a=$('salons');a.replaceChildren();
+ S.salons.forEach(s=>{const c=el('div','card');c.append(el('div','ban',s.n.toUpperCase()));
+  const i=el('div','in');i.append(el('h3',null,s.n),el('p',null,s.v+(s.s?' • '+s.s:'')),el('span','tag',s.t||'Abonné'));c.append(i);a.append(c)});
+ const g=$('coupes');g.replaceChildren();
+ if(!S.photos.length){const c=el('div','card');c.append(el('div','ph','Exemple : dégradé propre + barbe'));
+  const d=el('div','pd');d.append(el('h4',null,'Njoya Grooming'),el('p',null,'Tarif : 2 000 FCFA'));c.append(d);g.append(c)}
+ S.photos.forEach(p=>{const c=el('div','card');const im=el('img');im.alt='Coupe de '+p.a;im.src=p.img;c.append(im);
+  const d=el('div','pd');d.append(el('h4',null,p.a),el('p',null,'Tarif : '+p.x));c.append(d);g.append(c)})
+}
+
+function wa(m){window.open('https://wa.me/237691617565?text='+encodeURIComponent(m),'_blank')}
+function phoneOk(t){return /^(\+?237)?\s?6[\d\s]{8,11}$/.test(t.trim())}
+
+function addSalon(){
+ const n=$('sN').value.trim(),v=$('sV').value.trim(),s=$('sP').value.trim(),t=$('sT').value;
+ const id=$('sI').value.trim();if(!n||!v||!t.trim()||!id){alert('Remplis tous les champs, y compris l\'ID de transaction.');return}
+ if(!phoneOk(t)){alert('Numéro invalide (ex : 6XXXXXXXX).');return}
+ wa('Nouveau salon TRANSIT : '+n+' ('+v+'). Paiement 2000 FCFA depuis '+t+', ID transaction : '+id);
+ S.salons.push({n,v,s,t:'En attente de validation'});save();render();
+ ['sN','sV','sP','sT','sI'].forEach(i=>$(i).value='');closeM('mS');
+}
+
+function shrink(file){return new Promise((ok,ko)=>{
+ const r=new FileReader();r.onerror=ko;
+ r.onload=()=>{const im=new Image();im.onerror=ko;im.onload=()=>{
+  const m=700,k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');
+  c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+  c.getContext('2d').drawImage(im,0,0,c.width,c.height);ok(c.toDataURL('image/jpeg',.7))};im.src=r.result};
+ r.readAsDataURL(file)})}
+
+async function addPhoto(){
+ const a=$('pA').value.trim(),x=$('pX').value.trim(),t=$('pT').value,f=$('pF').files[0];
+ const id=$('pI').value.trim();if(!a||!x||!t.trim()||!f||!id){alert('Choisis une photo et remplis tous les champs, y compris l\'ID de transaction.');return}
+ if(!phoneOk(t)){alert('Numéro invalide (ex : 6XXXXXXXX).');return}
+ wa('Nouvelle photo TRANSIT de '+a+' (tarif '+x+'). Paiement 500 FCFA depuis '+t+', ID transaction : '+id);
+ try{const img=await shrink(f);S.photos.push({a,x,img});save();render();
+  ['pA','pX','pT','pF','pI'].forEach(i=>$(i).value='');$('fn').textContent='';closeM('mP')}
+ catch(e){alert("Impossible de lire cette image.")}
+}
+render();
+</script>
+</body>
+</html>
